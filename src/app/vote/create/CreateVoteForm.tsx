@@ -19,11 +19,10 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import LoadingButton from '@/components/LoadingButton'
 import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 const CreateVoteForm = () => {
   const { data: session } = useSession()
-  const router = useRouter()
 
   const form = useForm<CreateVoteAttribute>({
     resolver: zodResolver(createVoteSchema),
@@ -62,7 +61,7 @@ const CreateVoteForm = () => {
       }
 
       toast.success(await res.json())
-      router.replace('/')
+      redirect('/')
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)

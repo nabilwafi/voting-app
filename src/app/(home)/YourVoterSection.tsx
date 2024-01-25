@@ -10,27 +10,11 @@ import {
 } from '@/components/ui/table'
 import moment from 'moment'
 import { Link } from 'lucide-react'
-import { headers } from 'next/headers'
-import { votes } from '@prisma/client'
 import DeleteButton from '@/components/DeleteButton'
 import NextLink from 'next/link'
+import { votes } from '@prisma/client'
 
-const getVotes = async () => {
-  const res = await fetch('http://localhost:3000/api/votes', {
-    method: 'GET',
-    headers: headers(),
-  })
-
-  if (!res.ok) {
-    throw new Error(await res.json())
-  }
-
-  return res.json()
-}
-
-const YourVoterSection = async () => {
-  const votes: votes[] = await getVotes()
-
+const YourVoterSection = async ({ votes }: { votes: votes[] }) => {
   return (
     <section className="space-y-3">
       <h1 className="text-xl font-semibold">Your Vote:</h1>

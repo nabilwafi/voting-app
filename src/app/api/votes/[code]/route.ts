@@ -25,6 +25,12 @@ export async function GET(
       },
     })
 
+    if (!vote) {
+      return NextResponse.json('Vote not found', {
+        status: 404,
+      })
+    }
+
     const participants = await prisma.participant.findMany({
       select: {
         candidate: true,
@@ -61,18 +67,12 @@ export async function GET(
         : 0,
     }
 
-    if (!vote) {
-      return NextResponse.json('Vote not found', {
-        status: 404,
-      })
-    }
-
     return NextResponse.json(result, {
       status: 200,
     })
   } catch (error) {
     return NextResponse.json('something went wrong, please try again', {
-      status: 200,
+      status: 500,
     })
   }
 }

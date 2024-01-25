@@ -5,9 +5,27 @@ import YourVoterSection from '@/app/(home)/YourVoterSection'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import { headers } from 'next/headers'
+import { votes } from '@prisma/client'
+
+export async function generateMetadata() {
+  return {
+    title: 'Landing Page',
+  }
+}
+
+const getVotes = async () => {
+  const res = await fetch('http://localhost:3000/api/votes', {
+    method: 'GET',
+    headers: headers(),
+  })
+
+  return res.json()
+}
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
+  const votes: votes[] = await getVotes()
 
   return (
     <main className="space-y-28 py-44">
@@ -39,7 +57,7 @@ export default async function Home() {
         </div>
       </div>
 
-      {session && <YourVoterSection />}
+      {session && <YourVoterSection votes={votes} />}
     </main>
   )
 }

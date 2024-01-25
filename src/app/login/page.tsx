@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import React, { useEffect } from 'react'
+import React from 'react'
 import GoogleSVG from '@/assets/google.svg'
 import Image from 'next/image'
 import { signIn } from 'next-auth/react'

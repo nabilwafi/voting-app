@@ -4,15 +4,31 @@ import { headers } from 'next/headers'
 import React from 'react'
 import CandidateForm from './CandidateForm'
 import { VoteWithTotal } from '@/types/VoteWithTotal.types'
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+
+export async function generateMetadata({
+  params: { code },
+}: {
+  params: { code: string }
+}): Promise<Metadata> {
+  const res = await fetch(`http://localhost:3000/api/votes/${code}`, {
+    headers: headers(),
+  })
+
+  const data: votes = await res.json()
+
+  return {
+    title: data ? data.title : 'NO TITLE',
+  }
+}
 
 const getVote = async (code: string) => {
   const res = await fetch(`http://localhost:3000/api/votes/${code}`, {
     headers: headers(),
   })
 
-  if (!res.ok) {
-    throw new Error(await res.json())
-  }
+  if (!res.ok) notFound()
 
   return res.json()
 }

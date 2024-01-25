@@ -2,6 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 import WrittingImage from '@/assets/create-vote-man-writting.png'
 import CreateVoteForm from './CreateVoteForm'
+import { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Create Vote',
+  }
+}
 
 const Page = () => {
   return (
